@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using cc_pok_server_web_api.Model;
 
 namespace cc_pok_server_web_api
 {
@@ -38,6 +39,9 @@ namespace cc_pok_server_web_api
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
+
+            // DI
+            services.AddSingleton<IEmployeeRepository, EmployeeRepository> ();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
