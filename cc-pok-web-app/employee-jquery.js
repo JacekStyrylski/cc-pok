@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var employeesJQ;
 
-    //getEmloyees();
+    getEmloyees();
 
     $('.addEmpJQ').click(function () {
         postEmployee();
