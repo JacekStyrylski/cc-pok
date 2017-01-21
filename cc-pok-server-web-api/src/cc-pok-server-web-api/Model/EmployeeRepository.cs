@@ -23,10 +23,10 @@ namespace cc_pok_server_web_api.Model
 
         public void Add(Employee employee)
         {
-            if (!_employees.TryAdd(employee.EmployeID, employee))
+            if (!_employees.TryAdd(employee.EmployeeID, employee))
             {
                 throw new Exception(string.Format("There already is an employee with following GUID: {0} \nPlease retry."
-                    , employee.EmployeID));
+                    , employee.EmployeeID));
             }
         }
 
@@ -51,7 +51,7 @@ namespace cc_pok_server_web_api.Model
 
         public void Update(Employee employee)
         {
-            _employees[employee.EmployeID] = employee;
+            _employees[employee.EmployeeID] = employee;
         }
     }
 }

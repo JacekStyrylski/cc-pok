@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using cc_pok_server_web_api.Model;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -49,7 +50,7 @@ namespace cc_pok_server_web_api.Controllers
 
             Employees.Add(employee);
 
-            return CreatedAtRoute("Get", new { id = employee.EmployeID }, employee);
+            return new ObjectResult(employee);
         }
 
         // PUT api/values/5
@@ -61,7 +62,7 @@ namespace cc_pok_server_web_api.Controllers
                 return BadRequest();
             }
 
-            var foundEmployee = Employees.Find(employee.EmployeID);
+            var foundEmployee = Employees.Find(employee.EmployeeID);
             if (employee == null)
             {
                 return NotFound();

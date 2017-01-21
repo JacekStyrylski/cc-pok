@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using cc_pok_server_web_api.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 namespace cc_pok_server_web_api
 {
@@ -37,9 +39,8 @@ namespace cc_pok_server_web_api
         {
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
-
+            services.AddCors();
             services.AddMvc();
-
             // DI
             services.AddSingleton<IEmployeeRepository, EmployeeRepository> ();
         }
@@ -54,7 +55,12 @@ namespace cc_pok_server_web_api
 
             app.UseApplicationInsightsExceptionTelemetry();
 
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost")
+                .AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
             app.UseMvc();
+            
         }
     }
 }

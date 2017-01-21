@@ -5,19 +5,14 @@ namespace cc_pok_server_web_api.Model
 {
     public class Employee
     {
-        private Guid _EmployeID;
-
         public Employee(string name, string address, string email = "", string phone = "")
         {
             this.Name = name;
             this.Address = address;
-            this._EmployeID = Guid.NewGuid();
+            this.EmployeeID = Guid.NewGuid();
         }
 
-        public Guid EmployeID
-        {
-            get { return _EmployeID; }
-        }
+        public Guid EmployeeID { get; set; }
 
         [Required]
         public string Name { get; set; }
