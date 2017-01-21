@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, Response, RequestOptions } from '@angular/http';
 
-import { Hero } from './hero';
+import { Employee } from './employee';
 
 import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class EmployeeService {
@@ -13,46 +14,47 @@ export class EmployeeService {
 
     constructor(private http: Http) { }
 
-    getHero(id: number): Promise<Hero> {
+    private extractData(res: Response) {
+        let body = res.json();
+        return body;
+    }
+
+    getEmployee(id: number): Observable<Employee> {
         const url = `${this.EmployeeUrl}/${id}`;
 
         return this.http.get(url)
-            .toPromise()
-            .then(response => response.json().data as Hero)
+            .map(this.extractData)
             .catch(this.handleError);
     }
 
-    getHeroes(): Promise<Hero[]> {
+    getEmployees(): Observable<Employee[]> {
         return this.http.get(this.EmployeeUrl)
-            .toPromise()
-            .then(response => response.json().data as Hero[])
+            .map(this.extractData)
             .catch(this.handleError);
     }
 
-    getHeroesSlowly(): Promise<Hero[]> {
-        return new Promise<Hero[]>(resolve => setTimeout(resolve, 2000))
-            .then(() => this.getHeroes());
-    }
-
-    update(hero: Hero): Promise<Hero> {
-        const url = `${this.EmployeeUrl}/${hero.id}`;
+    update(employee: Employee): Observable<Employee> {
+        const url = `${this.EmployeeUrl}/${employee.employeeID}`;
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
 
         return this.http
-            .put(url, JSON.stringify(hero), { headers: this.headers })
-            .toPromise()
-            .then(() => hero)
+            .put(url, JSON.stringify(employee), { headers: this.headers })
+            .map(this.extractData)
             .catch(this.handleError);
     }
 
-    create(name: string): Promise<Hero> {
+    create(name: string, address: string): Observable<Employee> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
         return this.http
-            .post(this.EmployeeUrl, JSON.stringify({ name: name }), { headers: this.headers })
-            .toPromise()
-            .then(res => res.json().data)
+            .post(this.EmployeeUrl, { name: name, address: address }, options)
+            .map(this.extractData)
             .catch(this.handleError);
     }
 
-    delete(id: number): Promise<void> {
+    delete(id: string): Promise<void> {
         const url = `${this.EmployeeUrl}/${id}`;
 
         return this.http.delete(url, { headers: this.headers })

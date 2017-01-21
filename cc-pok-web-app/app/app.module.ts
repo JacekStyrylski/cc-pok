@@ -5,40 +5,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppRoutingModule } from './app-routing.module'
-
-// Import for loading & configuring in-memory web api
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api'
-import { InMemoryDataService } from './in-memory-data.service'
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard.component'
-import { HeroesComponent } from './heroes.component';
-import { HeroDetailComponent } from './hero-detail.component';
-import { HeroSearchComponent } from './hero-search.component';
-import { HeroService } from './hero.service';
 import { EmployeeService } from './employee.service';
-import { EmployeeComponent } from './employee.component'
+import { EmployeeComponent } from './employee.component';
 
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        InMemoryWebApiModule.forRoot(InMemoryDataService),
         AppRoutingModule
     ],
     declarations: [
         AppComponent,
-        DashboardComponent,
-        HeroDetailComponent,
-        HeroesComponent,
-        HeroSearchComponent,
-        EmployeeComponent,
-        EmployeeService
+        EmployeeComponent
     ],
     providers: [
-        HeroService
+        EmployeeService
     ],
     bootstrap: [
         AppComponent

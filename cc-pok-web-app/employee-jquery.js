@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    var employees;
+    var employeesJQ;
 
-    getEmloyees();
+    //getEmloyees();
 
     $('.addEmpJQ').click(function () {
         postEmployee();
@@ -25,7 +25,7 @@ function delEmployee() {
         type: "DELETE",
         'dataType': 'json',
         crossDomain: true,
-        url: "http://localhost:51321/api/employee" + '/' + employees[0].employeeID
+        url: "http://localhost:51321/api/employee" + '/' + employeesJQ[0].employeeID
     }).done(function () {
         getEmloyees();
     });
@@ -37,8 +37,8 @@ function getEmloyees() {
         crossDomain: true,
         url: "http://localhost:51321/api/employee"
     }).then(function (data) {
-        employees = data;
-        $('.employees').text(JSON.stringify(employees));
+        employeesJQ = data;
+        $('.employees').text(JSON.stringify(employeesJQ));
     });
 }
 

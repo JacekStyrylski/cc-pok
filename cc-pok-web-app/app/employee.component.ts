@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { EmployeeService } from './employee.service';
 import { Employee } from './employee';
+import { EmployeeService } from './employee.service';
 
 @Component({
     moduleId: module.id,
     selector: 'cc-employee',
-    template: `
-        <button>Click Me</button>
-    `
+    templateUrl: './employee.component.html',
+    styleUrls: [
+        'employee.component.css'
+    ]
 })
 export class EmployeeComponent implements OnInit {
-    selectedemployee: Employee;
+    selectedEmployee: Employee;
     employees: Employee[];
 
     constructor(
@@ -20,40 +21,38 @@ export class EmployeeComponent implements OnInit {
         private router: Router) { }
 
     ngOnInit(): void {
-        this.getHeroes();
+        this.getEmployees();
     }
 
     onSelect(employee: Employee): void {
-        this.selectedemployee = employee;
+        this.selectedEmployee = employee;
     }
 
-    getHeroes(): void {
-        this.employeeService.get().then(heroes => this.heroes = heroes);
-        //this.heroService.getHeroesSlowly().then(heroes => this.heroes = heroes);
+    getEmployees(): void {
+        this.employeeService.getEmployees().subscribe(employees => this.employees = employees);
     }
 
     gotoDetail(): void {
-        this.router.navigate(['/detail', this.selectedHero.id]);
+        this.router.navigate(['/detail', this.selectedEmployee.employeeID]);
     }
 
     add(name: string): void {
-        name = name.trim();
 
         if (!name) { return; }
 
-        this.heroService.create(name)
-            .then(hero => {
-                this.heroes.push(hero);
-                this.selectedHero = null;
-            })
+        this.employeeService.create(name, "qqq")
+            .subscribe(employee => {
+                this.employees.push(employee);
+                this.selectedEmployee = null;
+            });
     }
 
-    delete(hero: Hero): void {
-        this.heroService
-            .delete(hero.id)
+    delete(employee: Employee): void {
+        this.employeeService
+            .delete(employee.employeeID)
             .then(() => {
-                this.heroes = this.heroes.filter(h => h !== hero);
-                if (this.selectedHero === hero) { this.selectedHero = null; }
+                this.employees = this.employees.filter(e => e !== employee);
+                if (this.selectedEmployee === employee) { this.selectedEmployee = null; }
             })
     }
 }
